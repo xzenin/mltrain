@@ -1,10 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
- 
 
-using NetTrain;
+
 using NetTrain.IO;
+
+using TrarinLib.TrainerHere;
 
 FileLogger.WriteLine("Hello, World!");
 Loader loader = new Loader();
@@ -14,7 +15,7 @@ loader.Dryrun();
 //PrepareWordDataSet prepareWordDataSet = new PrepareWordDataSet();
 //prepareWordDataSet.RunThread();
 
-BattigolTrainer trainer = new BattigolTrainer();
+NetTrainer trainer = new NetTrainer();
 //trainer.WordDataSet = prepareWordDataSet;
 //trainer.Train();
 

@@ -42,6 +42,17 @@ namespace NetTrain
 
             FileLogger.WriteLine("Done..");
         }
+        public Dictionary<string,string> GetMegredWords()
+        {
+            foreach (var word in AdditionalDictionary)
+            {
+                if (!WordDictionary.ContainsKey(word.Key))
+                {
+                    WordDictionary[word.Key] = word.Value;
+                }
+            }
+            return WordDictionary;
+        }
         public void DropSimilar()
         {
             WordDictionary = words.Distinct().ToDictionary(x => x, y => y);

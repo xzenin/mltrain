@@ -1,5 +1,6 @@
-using NetTrain;
 using NetTrain.IO;
+
+using TrarinLib.TrainerHere;
 
 namespace WordPredictor
 {
@@ -24,8 +25,8 @@ namespace WordPredictor
         {
             string text = textBoxInput.Text;
 
-          
-            BattigolTrainer.PredictWords(text,5);
+            NetTrainer trainer = new NetTrainer();
+            trainer.PredictWords(text,5);
 
             FileLogger.WriteLine("Done!");
 

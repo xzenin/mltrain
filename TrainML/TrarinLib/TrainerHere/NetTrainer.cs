@@ -1,6 +1,7 @@
 ﻿using Microsoft.ML;
 using Microsoft.ML.Data;
 
+using NetTrain;
 using NetTrain.IO;
 
 using System;
@@ -13,67 +14,42 @@ using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetTrain
+namespace TrarinLib.TrainerHere
 {
-    public class InputData
+    public class NetTrainer
     {
-        public string Text { get; set; }
-        public string Label { get; set; } // true = positive, false = negative
-    }
-
-    public class Prediction
-    {
-        [ColumnName("PredictedLabel")]
-        public string PredictedLabel { get; set; }
-    }
-    public class PredictionScore
-    {
-        [ColumnName("Score")]
-        public float[] Scores { get; set; }
-    }
-
-    public class BattigolTrainer
-    {
+        string prefix = "BanglaPredictor";
         Loader loader = new Loader();
-
         public PrepareWordDataSet WordDataSet = new PrepareWordDataSet();
 
-        public BattigolTrainer()
+        public NetTrainer()
         {
             MainSystem();
         }
-        public  void Train()
+        public void Train()
         { 
-            // 1. Create ML context
             var mlContext = new MLContext();
+            FileLogger.WriteLine($"Preparing Data started at: {DateTime.Now}");
 
-            foreach (var word in WordDataSet.AdditionalDictionary)
-            {
-                WordDataSet.WordDictionary[word.Key] = word.Value;
-            }                                    
-
-            var trainingInputData = WordDataSet.WordDictionary.Keys.Select(x => new InputData() { Text = x, Label = x }).ToArray();
-            
-
+            var trainingInputData = WordDataSet.GetMegredWords().Select(x => new InputData() { Text = x.Key, Label = x.Value }).ToArray();
             var dataview = mlContext.Data.LoadFromEnumerable(trainingInputData);
-
-            // Pipeline: featurize text + train classifier
+            FileLogger.WriteLine($"Dataview created at: {DateTime.Now}");
             var pipeline = mlContext.Transforms.Text.FeaturizeText("Features", nameof(InputData.Text))
                 .Append(mlContext.Transforms.Conversion.MapValueToKey("Label", nameof(InputData.Label)))
                 .Append(mlContext.MulticlassClassification.Trainers.SdcaMaximumEntropy())
                 .Append(mlContext.Transforms.Conversion.MapKeyToValue("PredictedLabel"));
-            // 4. Train model
+
             FileLogger.WriteLine($"Training started at: {DateTime.Now}");
 
             var model = pipeline.Fit(dataview);
             FileLogger.WriteLine($"Training completed at: {DateTime.Now}");
 
             // === SAVE MODEL TO DISK ===
-            string modelPath = Path.Combine(loader.BaseDirectory, "AcademyModel.zip");
+            string modelPath = Path.Combine(loader.BaseDirectory, $"{prefix}.zip");
             mlContext.Model.Save(model, dataview.Schema, modelPath);
             FileLogger.WriteLine($"Model saved to: {modelPath}");
 
-            using (var fileStream = File.Create(loader.GetFile("AcademyModel.idv")))
+            using (var fileStream = File.Create(loader.GetFile($"{prefix}.idv")))
             {
                 mlContext.Data.SaveAsBinary(dataview, fileStream);
             }
@@ -106,9 +82,9 @@ namespace NetTrain
         public  void RunWithoutTrain()
         {
             var mlContext = new MLContext();
-            IDataView reloadedData = mlContext.Data.LoadFromBinary(loader.GetFile("AcademyModel.idv"));
+            IDataView reloadedData = mlContext.Data.LoadFromBinary(loader.GetFile($"{prefix}.idv"));
             
-            string modelPath = Path.Combine(loader.BaseDirectory, "TextPredictionModel.zip");
+            string modelPath = Path.Combine(loader.BaseDirectory, $"{prefix}.zip");
             
 
             // === LOAD MODEL FROM DISK ===
@@ -138,16 +114,10 @@ namespace NetTrain
         }
         public  void PredictWords(string word, int maxcount)
         {
-           
-
-            // 1. Create ML context
             var mlContext = new MLContext();
-            IDataView reloadedData = mlContext.Data.LoadFromBinary(loader.GetFile("AcademyModel.idv"));
+            IDataView reloadedData = mlContext.Data.LoadFromBinary(loader.GetFile($"{prefix}.idv"));
 
-            string dtaviewpath = loader.GetFile(loader.WordFileAkdamyAll + ".json");
-            var trainData = FileLogger.ReadFromFileJson<IDataView>(dtaviewpath);
-
-            string modelPath = Path.Combine(loader.BaseDirectory, "TextPredictionModel.zip");
+            string modelPath = Path.Combine(loader.BaseDirectory, $"{prefix}.zip");
 
             // === LOAD MODEL FROM DISK ===
             DataViewSchema schema;
@@ -160,7 +130,7 @@ namespace NetTrain
             var predictor2 = mlContext.Model.CreatePredictionEngine<InputData, PredictionScore>(loadedModel);
             var result2 = predictor2.Predict(testSample);
             // Get top 10 predictions
-            var labels = trainData.GetColumn<string>("Label").Distinct().ToList();
+            var labels = reloadedData.GetColumn<string>("Label").Distinct().ToList();
             var top10 = result2.Scores
                 .Select((score, index) => new { Word = labels[index], Score = score })
                 .OrderByDescending(x => x.Score)
