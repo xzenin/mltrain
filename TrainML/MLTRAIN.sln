@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.1.11304.174 d18.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36408.4 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTrain", "NETTRAIN\NetTrain.csproj", "{329B9AB6-295A-B615-7935-2D74B2405FF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPredictor", "WordPredictor\WordPredictor.csproj", "{DA93B2E9-8C14-49B3-8FA5-7BD4050C77F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrarinLib", "TrarinLib\TrarinLib.csproj", "{FE1CC24E-4BC0-4744-9EEC-77BBA033F79A}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "postarea.client", "PostArea\postarea.client\postarea.client.esproj", "{1F11DDA1-E69D-E4CA-8417-916D56470599}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostArea.Server", "PostArea\PostArea.Server\PostArea.Server.csproj", "{BE395908-C362-43EE-951B-F49E4CE9D5D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +45,26 @@ Global
 		{FE1CC24E-4BC0-4744-9EEC-77BBA033F79A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE1CC24E-4BC0-4744-9EEC-77BBA033F79A}.Release|x64.ActiveCfg = Release|Any CPU
 		{FE1CC24E-4BC0-4744-9EEC-77BBA033F79A}.Release|x64.Build.0 = Release|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Debug|x64.Build.0 = Debug|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Release|x64.ActiveCfg = Release|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Release|x64.Build.0 = Release|Any CPU
+		{1F11DDA1-E69D-E4CA-8417-916D56470599}.Release|x64.Deploy.0 = Release|Any CPU
+		{BE395908-C362-43EE-951B-F49E4CE9D5D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE395908-C362-43EE-951B-F49E4CE9D5D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE395908-C362-43EE-951B-F49E4CE9D5D6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BE395908-C362-43EE-951B-F49E4CE9D5D6}.Debug|x64.Build.0 = Debug|Any CPU
+		{BE395908-C362-43EE-951B-F49E4CE9D5D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE395908-C362-43EE-951B-F49E4CE9D5D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE395908-C362-43EE-951B-F49E4CE9D5D6}.Release|x64.ActiveCfg = Release|Any CPU
+		{BE395908-C362-43EE-951B-F49E4CE9D5D6}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
